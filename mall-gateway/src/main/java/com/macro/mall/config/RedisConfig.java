@@ -12,6 +12,4 @@ import java.util.concurrent.FutureTask;
 @Configuration
 public class RedisConfig extends BaseRedisConfig {
 
-    FutureTask
-
 }
