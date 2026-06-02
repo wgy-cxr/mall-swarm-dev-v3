@@ -1,9 +1,7 @@
 # Maven #
 target/
 
-# Alipay config files (包含敏感信息)
-mall-portal/src/main/java/com/macro/mall/portal/config/AlipayClientConfig.java
-mall-portal/src/main/java/com/macro/mall/portal/config/AlipayConfig.java
+
 
 # IDEA #
 .idea/
