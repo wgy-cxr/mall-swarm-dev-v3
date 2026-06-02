@@ -1,0 +1,30 @@
+compoent中的类作用是在项目启动初期，把什么路径需要什么权力放到redis中去。
+然后之前一直有一个疑惑就是SAtoken为什么用jwt令牌返回相关信息，在SA-TOKENConfigure中有配置
+
+
+
+
+UMS相关操作：
+    有登录相关操作，以及管理前台用户会员等级的操作，还有管理菜单（就是什么角色有哪些操作），这里之所以要区分菜单和资源是因为
+    菜单和资源的力度不一样，菜单是前端看的，资源是后端的。
+    该项目还把一些东西给些死了，只有查询操作，比如公司地址（用于退货显示），以及优选商品（前端有个优选区）
+
+    当前实现只做了：
+    ✅ 更新了退货申请表 (oms_order_return_apply)
+    修改退货状态（0→1→2 或 0→3）
+    记录退款金额
+    记录处理人、处理时间、处理备注
+    记录收货人、收货时间、收货备注
+    也就是说该项目只实现修改退货申请状态，并没有完成前台商户退货操作。
+
+
+        @Override
+        public void sendDelayMessageCancelOrder(Long orderId) {
+            //获取订单超时时间
+            OmsOrderSetting orderSetting = orderSettingMapper.selectByPrimaryKey(1L);
+            long delayTimes = orderSetting.getNormalOrderOvertime() * 60 * 1000;
+            //发送延迟消息
+            cancelOrderSender.sendMessage(orderId, delayTimes);
+        }
+        从这可以看出setting中设置的参数在这里用到
+

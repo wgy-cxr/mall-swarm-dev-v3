@@ -25,12 +25,29 @@ import org.springframework.web.server.ServerWebExchange;
 
 import java.util.*;
 
-/**
- * @auther macrozheng
- * @description Sa-Token相关配置
- * @date 2023/11/28
- * @github https://github.com/macrozheng
- */
+/*
+* 登录鉴权逻辑：首先服务启动时，在mall-admin中有个
+* @Component
+public class PathResourceRulesHolder {
+
+    @Autowired
+    private UmsResourceService resourceService;
+
+    @PostConstruct  // Spring 容器启动时自动执行
+    public void initPathResourceMap(){
+        resourceService.initPathResourceMap();
+    }
+}在这个bean（这个bean没有用，就是为了执行前置的这个逻辑）初始化的时候，会吧哪个路径需要哪个权限这个关系存到redis中，然后开始登录，首先如果是登录请求
+* 就不会被拦截，直接执行登录逻辑，登录逻辑是先去数据库查密码，如果没有，就失败，密码不对也失败，等等，然后吧用户信息存到redis中，其中这个用户拥有的权限也会被存到redis中
+* 然后登录成功之后，会返回一个token,这个token能解析出用户ID，用户登录类型等。
+* 这时候登陆成功了，此时在进行别的请求，被拦截后，如果是后台管理者，就会鉴权（前台用户不用鉴权，因为啥权限也没有）。先去看这个路径需要哪些权限。然后看这个用户有没有这个权限
+*    // 接口需要权限时鉴权
+                    if(CollUtil.isNotEmpty(needPermissionList)){
+                        SaRouter.match(requestPath, r -> StpUtil.checkPermissionOr(Convert.toStrArray(needPermissionList)));
+                    }
+                    if中的方法会调用STPINTERFACEIMPL中的方法去获取当前用户存到redis中的权限，然后根据这个权限去数据库中查询这个权限对应的资源，然后返回给前端
+*
+* */
 @Configuration
 public class SaTokenConfig {
 

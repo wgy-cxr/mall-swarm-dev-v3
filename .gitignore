@@ -1,6 +1,9 @@
 # Maven #
 target/
 
+mall-portal\src\main\java\com\macro\mall\portal\config\AlipayClientConfig
+mall-portal\src\main\java\com\macro\mall\portal\config\AlipayConfig
+
 # IDEA #
 .idea/
 *.iml
